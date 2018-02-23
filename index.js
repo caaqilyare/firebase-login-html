@@ -10,7 +10,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     if(user != null){
 
       var email_id = user.email;
-      document.getElementById("user_para").innerHTML = "Kusoo Dhawoow Ciwaanka waa  : " + email_id;
+      document.getElementById("user_para").innerHTML = "Kusoo Dhawoow  : " + email_id;
 
     }
 
