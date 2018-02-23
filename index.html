@@ -1,0 +1,38 @@
+<html>
+<head>
+  <title>Firebase Login</title>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="login_div" class="main-div">
+    <h3>Firebase Web login Example</h3>
+    <input type="email" placeholder="Email..." id="email_field" />
+    <input type="password" placeholder="Password..." id="password_field" />
+
+    <button onclick="login()">Login to Account</button>
+  </div>
+
+  <div id="user_div" class="loggedin-div">
+    <h3>Welcome User</h3>
+    <p id="user_para">Welcome to Firebase web login Example. You're currently logged in.</p>
+    <button onclick="logout()">Logout</button>
+    <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBX-HOXxdO9FYYGepyFq2HE-RaTU77ytnA",
+        authDomain: "caaqil-49f3a.firebaseapp.com",
+        databaseURL: "https://caaqil-49f3a.firebaseio.com",
+        projectId: "caaqil-49f3a",
+        storageBucket: "caaqil-49f3a.appspot.com",
+        messagingSenderId: "365094884495"
+      };
+      firebase.initializeApp(config);
+    </script>
+  <script src="index.js"></script>
+</script>
+
+</body>
+</html>
