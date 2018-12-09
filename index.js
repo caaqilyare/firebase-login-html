@@ -1,3 +1,13 @@
+var config = {
+  apiKey: "AIzaSyB30ptiCR7QpX90pzIXZU3OsZEgQp8sW5w",
+  authDomain: "fir-login-6605c.firebaseapp.com",
+  databaseURL: "https://fir-login-6605c.firebaseio.com",
+  projectId: "fir-login-6605c",
+  storageBucket: "fir-login-6605c.appspot.com",
+  messagingSenderId: "581631828835"
+};
+firebase.initializeApp(config);
+
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.

@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
+  <h1 id="bigOne"></h1>
   <div id="login_div" class="main-div">
     <h3>Firebase Web login Example</h3>
     <input type="email" placeholder="Email..." id="email_field" />
@@ -13,24 +13,20 @@
 
     <button onclick="login()">Login to Account</button>
   </div>
+  <h1 id="bigOne"></h1>
 
   <div id="user_div" class="loggedin-div">
-    <h3>Welcome User</h3>
+    <h3>Welcome</h3>
     <p id="user_para">Welcome to Firebase web login Example. You're currently logged in.</p>
     <button onclick="logout()">Logout</button>
-    
+    <br>
+  
 <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+<script src="index.js"></script>
 <script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyB30ptiCR7QpX90pzIXZU3OsZEgQp8sW5w",
-    authDomain: "fir-login-6605c.firebaseapp.com",
-    databaseURL: "https://fir-login-6605c.firebaseio.com",
-    projectId: "fir-login-6605c",
-    storageBucket: "fir-login-6605c.appspot.com",
-    messagingSenderId: "581631828835"
-  };
-  firebase.initializeApp(config);
+  var bigOne = document.getElementById('bigOne');
+  var dbRef = firebase.database().ref().child('text');
+  dbRef.on('value', snap => bigOne.innerHTML = snap.val());
 </script>
 </body>
 </html>
