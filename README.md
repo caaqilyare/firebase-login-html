@@ -10,6 +10,15 @@ Check out the live demo: [Modern Firebase Dashboard](https://caaqilyare.github.i
 - Email: `test@admin.com`
 - Password: `test123`
 
+> ⚠️ **Important Note About Test Account**
+> - This is a shared test account that everyone can access
+> - Please be considerate when using the test account
+> - Any data you add can be viewed by others
+> - Others may edit or delete your data
+> - Use this account only for testing features
+> - For personal use, please set up your own Firebase instance (instructions below)
+> - Do not store any sensitive or personal information
+
 ## 🌟 Features
 
 - **🎨 Beautiful UI/UX**
