@@ -76,11 +76,60 @@ Check out the live demo: [Modern Firebase Dashboard](https://caaqilyare.github.i
 
 ## 🚀 Getting Started
 
+### 🔥 Firebase Setup
+
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Create a new project
+3. Enable Authentication:
+   - Go to Authentication > Sign-in method
+   - Enable Email/Password authentication
+
+4. Create Firestore Database:
+   - Go to Firestore Database
+   - Create database
+   - Start in production mode
+   - Choose a location closest to your users
+
+5. Get Your Firebase Config:
+   - Go to Project Settings (⚙️ icon)
+   - Under "Your apps", click the web icon (</>)
+   - Register your app with a nickname
+   - Copy the firebaseConfig object
+
+6. Update the Config:
+   - Open `index.js`
+   - Replace the existing config with your Firebase config:
+   ```javascript
+   var config = {
+       apiKey: "YOUR_API_KEY",
+       authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+       projectId: "YOUR_PROJECT_ID",
+       storageBucket: "YOUR_PROJECT_ID.appspot.com",
+       messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+       appId: "YOUR_APP_ID"
+   };
+   ```
+
+7. Security Rules:
+   - Go to Firestore Database > Rules
+   - Update the rules to:
+   ```javascript
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /users/{userId}/{document=**} {
+         allow read, write: if request.auth != null && request.auth.uid == userId;
+       }
+     }
+   }
+   ```
+
+### 📱 Running the App
+
 1. Clone the repository
-2. Open `index.html` in your browser
-3. Log in with the test credentials:
-   - Email: `test@admin.com`
-   - Password: `test123`
+2. Update Firebase config as described above
+3. Open `index.html` in your browser
+4. Create a new account or use existing credentials
 
 ## 💡 Usage Tips
 
@@ -110,4 +159,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by [Munasar @caaqilyare](https://github.com/caaqilyare)
