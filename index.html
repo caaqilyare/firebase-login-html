@@ -1,32 +1,411 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" class="dark">
 <head>
-  <title>Munasar Firebase</title>
-  <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            100: '#1E293B',
+                            200: '#334155',
+                            300: '#475569',
+                            400: '#64748B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .dark .glass-effect {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hover-scale { transition: transform 0.2s; }
+        .hover-scale:hover { transform: scale(1.02); }
+    </style>
 </head>
-<body>
-  <h1 id="bigOne"></h1>
-  <div id="login_div" class="main-div">
-    <h3>Firebase Web login Example</h3>
-    <input type="email" placeholder="Email..." id="email_field" />
-    <input type="password" placeholder="Password..." id="password_field" />
+<body class="dark:bg-gray-900 min-h-screen">
+    <!-- Theme Toggle -->
+    <button onclick="toggleTheme()" class="fixed top-4 right-4 z-50 p-2 rounded-full bg-gray-200 dark:bg-dark-200 text-gray-600 dark:text-gray-300">
+        <i class="fas fa-moon dark:hidden"></i>
+        <i class="fas fa-sun hidden dark:block"></i>
+    </button>
 
-    <button onclick="login()">Login to Account</button>
-  </div>
-  <h1 id="bigOne"></h1>
+    <!-- Login Page -->
+    <div id="login_div" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-purple-700 dark:from-blue-900 dark:to-purple-900 p-4">
+        <div class="glass-effect rounded-2xl shadow-2xl p-8 max-w-md w-full">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <i class="fas fa-user-shield text-4xl text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">Welcome Back</h3>
+                <p class="text-gray-600 dark:text-gray-400 mt-2">Sign in to access your dashboard</p>
+            </div>
+            <div class="space-y-4">
+                <div class="relative">
+                    <i class="fas fa-envelope absolute left-3 top-3 text-gray-400"></i>
+                    <input type="email" placeholder="Email..." id="email_field" 
+                        class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                </div>
+                <div class="relative">
+                    <i class="fas fa-lock absolute left-3 top-3 text-gray-400"></i>
+                    <input type="password" placeholder="Password..." id="password_field" 
+                        class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                </div>
+                <button onclick="login()" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white py-3 rounded-lg transition duration-300">
+                    <i class="fas fa-sign-in-alt mr-2"></i> Login
+                </button>
+            </div>
+        </div>
+    </div>
 
-  <div id="user_div" class="loggedin-div">
-    <h3>Welcome</h3>
-    <p id="user_para">Welcome to Firebase web login Example. You're currently logged in.</p>
-    <button onclick="logout()">Logout</button>
-    <br>
-  
-<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
-<script src="index.js"></script>
-<script>
-  var bigOne = document.getElementById('bigOne');
-  var dbRef = firebase.database().ref().child('text');
-  dbRef.on('value', snap => bigOne.innerHTML = snap.val());
-</script>
+    <!-- Dashboard -->
+    <div id="user_div" class="hidden dark:bg-gray-900">
+        <!-- Top Navigation -->
+        <nav class="glass-effect sticky top-0 z-40 backdrop-blur">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex items-center">
+                        <div class="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+                            <i class="fas fa-chart-line mr-2"></i>Dashboard
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div id="user_para" class="flex items-center space-x-2"></div>
+                        <button onclick="logout()" class="text-red-500 hover:text-red-600 p-2 rounded-lg hover:bg-red-500/10 transition-all">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="glass-effect p-6 rounded-xl">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-400">Total Notes</p>
+                            <h3 class="text-2xl font-bold text-white" id="stats-notes">0</h3>
+                        </div>
+                        <div class="bg-yellow-500/20 p-3 rounded-lg">
+                            <i class="fas fa-sticky-note text-yellow-500"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-effect p-6 rounded-xl">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-400">Total Links</p>
+                            <h3 class="text-2xl font-bold text-white" id="stats-links">0</h3>
+                        </div>
+                        <div class="bg-blue-500/20 p-3 rounded-lg">
+                            <i class="fas fa-link text-blue-500"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-effect p-6 rounded-xl">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-400">Total Passwords</p>
+                            <h3 class="text-2xl font-bold text-white" id="stats-passwords">0</h3>
+                        </div>
+                        <div class="bg-purple-500/20 p-3 rounded-lg">
+                            <i class="fas fa-key text-purple-500"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-effect p-6 rounded-xl">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-400">Total Contacts</p>
+                            <h3 class="text-2xl font-bold text-white" id="stats-contacts">0</h3>
+                        </div>
+                        <div class="bg-green-500/20 p-3 rounded-lg">
+                            <i class="fas fa-address-book text-green-500"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Note Form -->
+            <div class="glass-effect rounded-xl p-6 mb-8">
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+                    <i class="fas fa-plus-circle text-blue-500 mr-2"></i>
+                    Add New Item
+                </h2>
+                <div class="space-y-6">
+                    <!-- Item Type Selector -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <button onclick="selectItemType('note')" id="noteTypeBtn" 
+                            class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 transition-all duration-300 item-type-btn active">
+                            <i class="fas fa-sticky-note text-2xl mb-2 text-yellow-500"></i>
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Note</span>
+                        </button>
+                        <button onclick="selectItemType('contact')" id="contactTypeBtn"
+                            class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 transition-all duration-300 item-type-btn">
+                            <i class="fas fa-address-book text-2xl mb-2 text-green-500"></i>
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Contact</span>
+                        </button>
+                        <button onclick="selectItemType('link')" id="linkTypeBtn"
+                            class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 transition-all duration-300 item-type-btn">
+                            <i class="fas fa-link text-2xl mb-2 text-blue-500"></i>
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Link</span>
+                        </button>
+                        <button onclick="selectItemType('password')" id="passwordTypeBtn"
+                            class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 transition-all duration-300 item-type-btn">
+                            <i class="fas fa-key text-2xl mb-2 text-purple-500"></i>
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Password</span>
+                        </button>
+                    </div>
+
+                    <!-- Common Fields -->
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <i class="fas fa-heading absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" id="item_title" placeholder="Title..." 
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                        </div>
+                    </div>
+
+                    <!-- Note Fields -->
+                    <div id="noteFields" class="space-y-4">
+                        <div class="relative">
+                            <i class="fas fa-heading absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" id="item_note_title" placeholder="Title..." 
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
+                        </div>
+                        <div class="relative">
+                            <i class="fas fa-sticky-note absolute left-3 top-3 text-gray-400"></i>
+                            <textarea id="item_note_content" placeholder="Write your note..." rows="4"
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white resize-none"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Contact Fields -->
+                    <div id="contactFields" class="space-y-4 hidden">
+                        <div class="relative">
+                            <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" id="item_contact_name" placeholder="Full name..." 
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
+                        </div>
+                        <div class="relative">
+                            <i class="fas fa-envelope absolute left-3 top-3 text-gray-400"></i>
+                            <input type="email" id="item_contact_email" placeholder="Email (optional)..." 
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
+                        </div>
+                        <div class="relative">
+                            <i class="fas fa-phone absolute left-3 top-3 text-gray-400"></i>
+                            <input type="tel" id="item_contact_phone" placeholder="Phone number..." 
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
+                        </div>
+                        <div class="relative">
+                            <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" id="item_address" placeholder="Address (optional)..." 
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
+                        </div>
+                        <div class="relative">
+                            <i class="fas fa-sticky-note absolute left-3 top-3 text-gray-400"></i>
+                            <textarea id="item_notes" placeholder="Additional notes (optional)..." rows="2"
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Link Fields -->
+                    <div id="linkFields" class="space-y-4 hidden">
+                        <div class="relative">
+                            <i class="fas fa-link absolute left-3 top-3 text-gray-400"></i>
+                            <input type="url" id="item_content" placeholder="URL..." 
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
+                        </div>
+                    </div>
+
+                    <!-- Password Fields -->
+                    <div id="passwordFields" class="space-y-4 hidden">
+                        <div class="relative">
+                            <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" id="item_password_username" placeholder="Username..." 
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
+                        </div>
+                        <div class="relative">
+                            <i class="fas fa-lock absolute left-3 top-3 text-gray-400"></i>
+                            <input type="password" id="item_password_password" placeholder="Password..." 
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
+                        </div>
+                        <div class="relative">
+                            <i class="fas fa-envelope absolute left-3 top-3 text-gray-400"></i>
+                            <input type="email" id="item_password_email" placeholder="Email (optional)..." 
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
+                        </div>
+                        <div class="relative">
+                            <i class="fas fa-globe absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" id="item_password_website" placeholder="Website (optional)..." 
+                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
+                        </div>
+                    </div>
+
+                    <button onclick="addItem()" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white py-3 rounded-lg transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-plus mr-2"></i> Add Item
+                    </button>
+                </div>
+            </div>
+
+            <!-- Items List -->
+            <div id="items_list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Items will be added here dynamically -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm hidden overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-xl glass-effect">
+            <div class="mt-3">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Edit Item</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label for="edit-title-modal" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Title
+                        </label>
+                        <input type="text" id="edit-title-modal" placeholder="Title" 
+                            class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                    </div>
+
+                    <div>
+                        <label for="edit-phone-modal" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Phone Number (Optional)
+                        </label>
+                        <input type="tel" id="edit-phone-modal" placeholder="Phone number..." 
+                            class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                    </div>
+                    
+                    <!-- Note Content -->
+                    <div id="edit-note-content" class="hidden">
+                        <label for="edit-note-content-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Note Content
+                        </label>
+                        <textarea id="edit-note-content-input" placeholder="Note content..." rows="4"
+                            class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white"></textarea>
+                    </div>
+
+                    <!-- Contact Content -->
+                    <div id="edit-contact-content" class="hidden">
+                        <div class="space-y-3">
+                            <div>
+                                <label for="edit-contact-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Full Name
+                                </label>
+                                <input type="text" id="edit-contact-name" placeholder="Full name..." 
+                                    class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                            </div>
+                            <div>
+                                <label for="edit-contact-phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Phone Number
+                                </label>
+                                <input type="tel" id="edit-contact-phone" placeholder="Phone number..." 
+                                    class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                            </div>
+                            <div>
+                                <label for="edit-contact-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Email Address
+                                </label>
+                                <input type="email" id="edit-contact-email" placeholder="Email address..." 
+                                    class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                            </div>
+                            <div>
+                                <label for="edit-contact-address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Address (Optional)
+                                </label>
+                                <input type="text" id="edit-contact-address" placeholder="Address..." 
+                                    class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                            </div>
+                            <div>
+                                <label for="edit-contact-notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Additional Notes (Optional)
+                                </label>
+                                <textarea id="edit-contact-notes" placeholder="Additional notes..." rows="2"
+                                    class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Link Content -->
+                    <div id="edit-link-content" class="hidden">
+                        <label for="edit-link-content-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            URL
+                        </label>
+                        <input type="url" id="edit-link-content-input" placeholder="Link URL..." 
+                            class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                    </div>
+
+                    <!-- Password Content -->
+                    <div id="edit-password-content" class="hidden">
+                        <div class="space-y-3">
+                            <div>
+                                <label for="edit-password-username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Username
+                                </label>
+                                <input type="text" id="edit-password-username" placeholder="Username..." 
+                                    class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                            </div>
+                            <div>
+                                <label for="edit-password-content-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Password
+                                </label>
+                                <div class="relative">
+                                    <input type="password" id="edit-password-content-input" placeholder="Password..." 
+                                        class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                                    <button onclick="toggleEditPassword()" type="button" 
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300">
+                                        <i id="edit-password-toggle-icon" class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="edit-password-website" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Website (Optional)
+                                </label>
+                                <input type="url" id="edit-password-website" placeholder="Website URL..." 
+                                    class="w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-dark-200 dark:text-white text-gray-900 dark:text-white" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button onclick="closeEditModal()" 
+                            class="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500">
+                            Cancel
+                        </button>
+                        <button onclick="saveEdit()" 
+                            class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-lg">
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-firestore.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
