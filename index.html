@@ -1,3 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            100: '#1E293B',
+                            200: '#334155',
+                            300: '#475569',
+                            400: '#64748B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
 <body class="dark:bg-gray-900 min-h-screen">
     <!-- Theme Toggle -->
     <button onclick="toggleTheme()" class="fixed top-4 right-4 z-50 p-2 rounded-full bg-gray-200 dark:bg-dark-200 text-gray-600 dark:text-gray-300">
@@ -5,24 +33,14 @@
         <i class="fas fa-sun hidden dark:block"></i>
     </button>
 
-    <!-- Navbar -->
-    <nav class="bg-white dark:bg-dark-100 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <span class="text-xl font-semibold text-gray-800 dark:text-white">Dashboard</span>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <div class="text-gray-600 dark:text-gray-300">
-                        <span id="user-email">Loading...</span>
-                    </div>
-                    <button id="logout-button" class="px-4 py-2 rounded-md text-sm font-medium text-white bg-red-500 hover:bg-red-600">
-                        Logout
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
     <!-- Components -->
+    <div id="components-container"></div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="js/auth.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
+</html>
