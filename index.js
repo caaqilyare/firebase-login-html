@@ -5,6 +5,30 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeAuth();
         initializeTheme();
         
+        // Initialize Firebase Auth state observer
+        firebase.auth().onAuthStateChanged((user) => {
+            const userEmail = document.getElementById('userEmail');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            if (user) {
+                // User is signed in
+                userEmail.textContent = user.email;
+                
+                // Setup logout functionality
+                logoutBtn.addEventListener('click', () => {
+                    firebase.auth().signOut().then(() => {
+                        // Sign-out successful, redirect to login page
+                        window.location.href = '/login.html';
+                    }).catch((error) => {
+                        console.error('Logout error:', error);
+                    });
+                });
+            } else {
+                // No user is signed in, redirect to login page
+                window.location.href = '/login.html';
+            }
+        });
+
         // Load dashboard content
         const dashboardContent = document.getElementById('dashboard-content');
         if (!dashboardContent) {
