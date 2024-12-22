@@ -33,6 +33,24 @@
         <i class="fas fa-sun hidden dark:block"></i>
     </button>
 
+    <!-- Navbar -->
+    <nav class="bg-white dark:bg-dark-100 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-semibold text-gray-800 dark:text-white">Dashboard</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="userEmail" class="text-gray-600 dark:text-gray-300"></span>
+                    <button id="logoutBtn" class="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition-colors">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Components -->
     <!-- Components -->
     <div id="components-container">
         <div id="dashboard-content"></div>
