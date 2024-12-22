@@ -76,25 +76,25 @@
             <div class="space-y-6">
                 <!-- Item Type Selector -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <button onclick="selectItemType('note')" id="noteTypeBtn" 
+                    <button type="button" data-type="note" id="noteTypeBtn" 
                         class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 transition-all duration-300 item-type-btn active">
                         <i class="fas fa-sticky-note text-2xl mb-2 text-blue-500"></i>
                         <span>Note</span>
                     </button>
                     
-                    <button onclick="selectItemType('link')" id="linkTypeBtn"
+                    <button type="button" data-type="link" id="linkTypeBtn"
                         class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-purple-500 dark:hover:border-purple-500 transition-all duration-300 item-type-btn">
                         <i class="fas fa-link text-2xl mb-2 text-purple-500"></i>
                         <span>Link</span>
                     </button>
                     
-                    <button onclick="selectItemType('contact')" id="contactTypeBtn"
+                    <button type="button" data-type="contact" id="contactTypeBtn"
                         class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-500 transition-all duration-300 item-type-btn">
                         <i class="fas fa-address-book text-2xl mb-2 text-green-500"></i>
                         <span>Contact</span>
                     </button>
                     
-                    <button onclick="selectItemType('password')" id="passwordTypeBtn"
+                    <button type="button" data-type="password" id="passwordTypeBtn"
                         class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-red-500 dark:hover:border-red-500 transition-all duration-300 item-type-btn">
                         <i class="fas fa-key text-2xl mb-2 text-red-500"></i>
                         <span>Password</span>
@@ -102,249 +102,149 @@
                 </div>
 
                 <!-- Form Fields -->
-                <div class="space-y-4">
+                <form id="add-item-form" class="space-y-4">
                     <!-- Common Fields -->
                     <div class="relative">
                         <i class="fas fa-heading absolute left-3 top-3 text-gray-400"></i>
-                        <input type="text" id="item_title" placeholder="Title..." 
+                        <input type="text" id="item_title" placeholder="Title..." required
                             class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
                     </div>
 
-                    <!-- Note Fields -->
-                    <div id="noteFields" class="space-y-4">
-                        <div class="relative">
-                            <i class="fas fa-align-left absolute left-3 top-3 text-gray-400"></i>
-                            <textarea id="item_note_content" rows="4" placeholder="Note content..." 
-                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white"></textarea>
-                        </div>
+                    <div class="relative">
+                        <i class="fas fa-align-left absolute left-3 top-3 text-gray-400"></i>
+                        <textarea id="item_content" rows="4" placeholder="Content..." required
+                            class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white"></textarea>
                     </div>
 
-                    <!-- Link Fields -->
-                    <div id="linkFields" class="space-y-4 hidden">
-                        <div class="relative">
-                            <i class="fas fa-link absolute left-3 top-3 text-gray-400"></i>
-                            <input type="url" id="item_link_url" placeholder="URL..." 
-                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
-                        </div>
-                        <div class="relative">
-                            <i class="fas fa-align-left absolute left-3 top-3 text-gray-400"></i>
-                            <textarea id="item_link_description" rows="2" placeholder="Description..." 
-                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Contact Fields -->
-                    <div id="contactFields" class="space-y-4 hidden">
-                        <div class="relative">
-                            <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
-                            <input type="text" id="item_contact_name" placeholder="Full name..." 
-                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
-                        </div>
-                        <div class="relative">
-                            <i class="fas fa-envelope absolute left-3 top-3 text-gray-400"></i>
-                            <input type="email" id="item_contact_email" placeholder="Email..." 
-                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
-                        </div>
-                        <div class="relative">
-                            <i class="fas fa-phone absolute left-3 top-3 text-gray-400"></i>
-                            <input type="tel" id="item_contact_phone" placeholder="Phone..." 
-                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
-                        </div>
-                        <div class="relative">
-                            <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
-                            <textarea id="item_contact_address" rows="2" placeholder="Address..." 
-                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Password Fields -->
-                    <div id="passwordFields" class="space-y-4 hidden">
-                        <div class="relative">
-                            <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
-                            <input type="text" id="item_password_username" placeholder="Username..." 
-                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
-                        </div>
-                        <div class="relative">
-                            <i class="fas fa-key absolute left-3 top-3 text-gray-400"></i>
-                            <input type="password" id="item_password_password" placeholder="Password..." 
-                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
-                        </div>
-                        <div class="relative">
-                            <i class="fas fa-globe absolute left-3 top-3 text-gray-400"></i>
-                            <input type="url" id="item_password_website" placeholder="Website..." 
-                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white" />
-                        </div>
-                        <div class="relative">
-                            <i class="fas fa-align-left absolute left-3 top-3 text-gray-400"></i>
-                            <textarea id="item_password_notes" rows="2" placeholder="Notes..." 
-                                class="pl-10 w-full p-2 bg-white/10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white"></textarea>
-                        </div>
-                    </div>
-
-                    <button onclick="addItem()" 
-                        class="w-full bg-gradient-to-r py-2 px-4 rounded-lg text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
+                    <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 py-2 px-4 rounded-lg text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
+                        <i class="fas fa-plus-circle mr-2"></i>
                         Add Item
                     </button>
-                </div>
+                </form>
             </div>
         </div>
+    </main>
 
-  
-     <!-- Toast Container -->
-     <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2 pointer-events-none"></div>
-     
-     <!-- Toast Template -->
-     <template id="toast-template">
-         <div class="transform transition-all duration-300 opacity-0 translate-x-full pointer-events-auto">
-             <div class="relative flex items-center px-3 py-2 rounded-lg shadow-lg backdrop-blur-sm bg-opacity-90 w-64">
-                 <div class="flex-shrink-0 w-5 h-5 mr-2">
-                     <i class="fas text-sm"></i>
-                 </div>
-                 <div class="flex-1 mr-2">
-                     <p class="text-sm font-medium toast-title truncate"></p>
-                     <p class="text-xs toast-message opacity-75 truncate"></p>
-                 </div>
-                 <button class="text-xs opacity-70 hover:opacity-100 transition-opacity focus:outline-none" onclick="this.parentElement.parentElement.remove()">
-                     <i class="fas fa-times"></i>
-                 </button>
-                 <div class="absolute bottom-0 left-0 h-0.5 w-full toast-progress"></div>
-             </div>
-         </div>
-     </template>
-     
-     <style>
-         /* Toast Animations */
-         @keyframes slideIn {
-             from {
-                 opacity: 0;
-                 transform: translateX(100%);
-             }
-             to {
-                 opacity: 1;
-                 transform: translateX(0);
-             }
-         }
-     
-         @keyframes slideOut {
-             from {
-                 opacity: 1;
-                 transform: translateX(0);
-             }
-             to {
-                 opacity: 0;
-                 transform: translateX(100%);
-             }
-         }
-     
-         @keyframes progress {
-             from { width: 100%; }
-             to { width: 0; }
-         }
-     
-         .toast-progress {
-             animation: progress 3s linear forwards;
-         }
-     
-         /* Toast Types */
-         .toast-success {
-             background-color: rgba(16, 185, 129, 0.95);
-             box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.1), 0 2px 4px -1px rgba(16, 185, 129, 0.06);
-         }
-     
-         .toast-error {
-             background-color: rgba(239, 68, 68, 0.95);
-             box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.1), 0 2px 4px -1px rgba(239, 68, 68, 0.06);
-         }
-     
-         .toast-info {
-             background-color: rgba(59, 130, 246, 0.95);
-             box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1), 0 2px 4px -1px rgba(59, 130, 246, 0.06);
-         }
-     
-         /* Toast Container */
-         #toast-container {
-             pointer-events: none;
-         }
-     
-         #toast-container > * {
-             pointer-events: auto;
-         }
-     
-         /* Toast Animation Classes */
-         .slide-in {
-             animation: slideIn 0.2s ease forwards;
-         }
-     
-         .slide-out {
-             animation: slideOut 0.2s ease forwards;
-         }
-     
-         /* Toast Progress Bar */
-         .toast-progress {
-             background: rgba(255, 255, 255, 0.3);
-             border-radius: 0 0 0.375rem 0.375rem;
-         }
-     </style>
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2 pointer-events-none"></div>
     
-<!-- Item Templates -->
-<template id="note-template">
-    <div class="transform hover:scale-105 transition-all duration-300">
-        <div class="relative group">
-            <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/30 to-orange-500/30 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-            <div class="relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
-                            <i class="fas fa-sticky-note text-white text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white truncate note-title"></h3>
-                        <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-3 note-content"></p>
-                    </div>
+    <!-- Toast Template -->
+    <template id="toast-template">
+        <div class="transform transition-all duration-300 opacity-0 translate-x-full pointer-events-auto">
+            <div class="relative flex items-center px-3 py-2 rounded-lg shadow-lg backdrop-blur-sm bg-opacity-90 w-64">
+                <div class="flex-shrink-0 w-5 h-5 mr-2">
+                    <i class="fas text-sm"></i>
                 </div>
-                <div class="mt-4 pt-4 border-t border-yellow-500/20">
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-yellow-600/60 dark:text-yellow-400/60 timestamp">
-                            <i class="fas fa-clock mr-1"></i>
-                        </span>
-                        <div class="flex space-x-2">
-                            <button class="edit-btn p-2 text-gray-500 hover:text-yellow-500 transition-colors">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="delete-btn p-2 text-gray-500 hover:text-red-500 transition-colors">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </div>
+                <div class="flex-1 mr-2">
+                    <p class="text-sm font-medium toast-title truncate"></p>
+                    <p class="text-xs toast-message opacity-75 truncate"></p>
                 </div>
+                <button class="text-xs opacity-70 hover:opacity-100 transition-opacity focus:outline-none" onclick="this.parentElement.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="absolute bottom-0 left-0 h-0.5 w-full toast-progress"></div>
             </div>
         </div>
-    </div>
-</template>
-
-<template id="link-template">
-    <div class="transform hover:scale-105 transition-all duration-300">
-        <div class="relative group">
-            <div class="absolute inset-0 bg-gradient-to-br from-blue-400/30 to-indigo-500/30 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-            <div class="relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full transform translate-x-16 -translate-y-16 group-hover:translate-x-12 group-hover:-translate-y-12 transition-transform"></div>
-                <div class="relative">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center transform group-hover:rotate-45 transition-transform duration-300">
-                            <i class="fas fa-link text-white text-xl"></i>
+    </template>
+    
+    <style>
+        /* Toast Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+    
+        @keyframes progress {
+            from { width: 100%; }
+            to { width: 0; }
+        }
+    
+        .toast-progress {
+            animation: progress 3s linear forwards;
+        }
+    
+        /* Toast Types */
+        .toast-success {
+            background-color: rgba(16, 185, 129, 0.95);
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.1), 0 2px 4px -1px rgba(16, 185, 129, 0.06);
+        }
+    
+        .toast-error {
+            background-color: rgba(239, 68, 68, 0.95);
+            box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.1), 0 2px 4px -1px rgba(239, 68, 68, 0.06);
+        }
+    
+        .toast-info {
+            background-color: rgba(59, 130, 246, 0.95);
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1), 0 2px 4px -1px rgba(59, 130, 246, 0.06);
+        }
+    
+        /* Toast Container */
+        #toast-container {
+            pointer-events: none;
+        }
+    
+        #toast-container > * {
+            pointer-events: auto;
+        }
+    
+        /* Toast Animation Classes */
+        .slide-in {
+            animation: slideIn 0.2s ease forwards;
+        }
+    
+        .slide-out {
+            animation: slideOut 0.2s ease forwards;
+        }
+    
+        /* Toast Progress Bar */
+        .toast-progress {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 0 0 0.375rem 0.375rem;
+        }
+    </style>
+    
+    <!-- Item Templates -->
+    <template id="note-template">
+        <div class="transform hover:scale-105 transition-all duration-300">
+            <div class="relative group">
+                <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/30 to-orange-500/30 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
+                <div class="relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
+                                <i class="fas fa-sticky-note text-white text-xl"></i>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white link-title"></h3>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white truncate note-title"></h3>
+                            <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-3 note-content"></p>
+                        </div>
                     </div>
-                    <a class="link-url block mt-2 text-blue-500 hover:text-blue-600 dark:text-blue-400 break-all group-hover:underline"></a>
-                    <p class="mt-2 text-gray-600 dark:text-gray-300 link-description"></p>
-                    <div class="mt-4 pt-4 border-t border-blue-500/20">
+                    <div class="mt-4 pt-4 border-t border-yellow-500/20">
                         <div class="flex justify-between items-center">
-                            <span class="text-sm text-blue-600/60 dark:text-blue-400/60 timestamp">
+                            <span class="text-sm text-yellow-600/60 dark:text-yellow-400/60 timestamp">
                                 <i class="fas fa-clock mr-1"></i>
                             </span>
                             <div class="flex space-x-2">
-                                <button class="edit-btn p-2 text-gray-500 hover:text-blue-500 transition-colors">
+                                <button class="edit-btn p-2 text-gray-500 hover:text-yellow-500 transition-colors">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button class="delete-btn p-2 text-gray-500 hover:text-red-500 transition-colors">
@@ -356,247 +256,282 @@
                 </div>
             </div>
         </div>
-    </div>
-</template>
+    </template>
 
-<template id="password-template">
-    <div class="transform hover:scale-105 transition-all duration-300">
-        <div class="relative group">
-            <div class="absolute inset-0 bg-gradient-to-br from-purple-400/30 to-pink-500/30 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-            <div class="relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
-                <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-purple-500/10 rounded-full"></div>
-                <div class="relative">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg flex items-center justify-center transform group-hover:rotate-[360deg] transition-transform duration-500">
-                            <i class="fas fa-key text-white text-xl"></i>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white password-title"></h3>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="flex items-center space-x-2">
-                            <span class="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-user text-purple-500"></i>
-                            </span>
-                            <span class="password-username text-gray-600 dark:text-gray-300"></span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-lock text-purple-500"></i>
-                            </span>
-                            <div class="flex-1 flex items-center">
-                                <span class="password-value text-gray-600 dark:text-gray-300">••••••••</span>
-                                <button class="toggle-password ml-2 text-purple-500 hover:text-purple-600">
-                                    <i class="fas fa-eye"></i>
-                                </button>
+    <template id="link-template">
+        <div class="transform hover:scale-105 transition-all duration-300">
+            <div class="relative group">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-400/30 to-indigo-500/30 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
+                <div class="relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full transform translate-x-16 -translate-y-16 group-hover:translate-x-12 group-hover:-translate-y-12 transition-transform"></div>
+                    <div class="relative">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center transform group-hover:rotate-45 transition-transform duration-300">
+                                <i class="fas fa-link text-white text-xl"></i>
                             </div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white link-title"></h3>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-globe text-purple-500"></i>
-                            </span>
-                            <span class="password-website text-gray-600 dark:text-gray-300"></span>
-                        </div>
-                    </div>
-                    <div class="mt-4 pt-4 border-t border-purple-500/20">
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-purple-600/60 dark:text-purple-400/60 timestamp">
-                                <i class="fas fa-clock mr-1"></i>
-                            </span>
-                            <div class="flex space-x-2">
-                                <button class="edit-btn p-2 text-gray-500 hover:text-purple-500 transition-colors">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="delete-btn p-2 text-gray-500 hover:text-red-500 transition-colors">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                        <a class="link-url block mt-2 text-blue-500 hover:text-blue-600 dark:text-blue-400 break-all group-hover:underline"></a>
+                        <p class="mt-2 text-gray-600 dark:text-gray-300 link-description"></p>
+                        <div class="mt-4 pt-4 border-t border-blue-500/20">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-blue-600/60 dark:text-blue-400/60 timestamp">
+                                    <i class="fas fa-clock mr-1"></i>
+                                </span>
+                                <div class="flex space-x-2">
+                                    <button class="edit-btn p-2 text-gray-500 hover:text-blue-500 transition-colors">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="delete-btn p-2 text-gray-500 hover:text-red-500 transition-colors">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</template>
+    </template>
 
-<template id="contact-template">
-    <div class="transform hover:scale-105 transition-all duration-300">
-        <div class="relative group">
-            <div class="absolute inset-0 bg-gradient-to-br from-green-400/30 to-emerald-500/30 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-            <div class="relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
-                <div class="absolute top-0 right-0 w-28 h-28 bg-green-500/10 rounded-bl-[100px] group-hover:scale-110 transition-transform"></div>
-                <div class="relative">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-address-book text-white text-xl"></i>
+    <template id="password-template">
+        <div class="transform hover:scale-105 transition-all duration-300">
+            <div class="relative group">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-400/30 to-pink-500/30 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
+                <div class="relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
+                    <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-purple-500/10 rounded-full"></div>
+                    <div class="relative">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg flex items-center justify-center transform group-hover:rotate-[360deg] transition-transform duration-500">
+                                <i class="fas fa-key text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white password-title"></h3>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white contact-name"></h3>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="flex items-center space-x-2">
-                            <span class="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-envelope text-green-500"></i>
-                            </span>
-                            <span class="contact-email text-gray-600 dark:text-gray-300"></span>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-user text-purple-500"></i>
+                                </span>
+                                <span class="password-username text-gray-600 dark:text-gray-300"></span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-lock text-purple-500"></i>
+                                </span>
+                                <div class="flex-1 flex items-center">
+                                    <span class="password-value text-gray-600 dark:text-gray-300">••••••••</span>
+                                    <button class="toggle-password ml-2 text-purple-500 hover:text-purple-600">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-globe text-purple-500"></i>
+                                </span>
+                                <span class="password-website text-gray-600 dark:text-gray-300"></span>
+                            </div>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-phone text-green-500"></i>
-                            </span>
-                            <span class="contact-phone text-gray-600 dark:text-gray-300"></span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-map-marker-alt text-green-500"></i>
-                            </span>
-                            <span class="contact-address text-gray-600 dark:text-gray-300"></span>
-                        </div>
-                    </div>
-                    <div class="mt-4 pt-4 border-t border-green-500/20">
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-green-600/60 dark:text-green-400/60 timestamp">
-                                <i class="fas fa-clock mr-1"></i>
-                            </span>
-                            <div class="flex space-x-2">
-                                <button class="edit-btn p-2 text-gray-500 hover:text-green-500 transition-colors">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="delete-btn p-2 text-gray-500 hover:text-red-500 transition-colors">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                        <div class="mt-4 pt-4 border-t border-purple-500/20">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-purple-600/60 dark:text-purple-400/60 timestamp">
+                                    <i class="fas fa-clock mr-1"></i>
+                                </span>
+                                <div class="flex space-x-2">
+                                    <button class="edit-btn p-2 text-gray-500 hover:text-purple-500 transition-colors">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="delete-btn p-2 text-gray-500 hover:text-red-500 transition-colors">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</template>
+    </template>
 
-<style>
-    .text-gradient-primary {
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    
-    @keyframes float {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-        100% { transform: translateY(0px); }
-    }
-    
-    .animate-float {
-        animation: float 3s ease-in-out infinite;
-    }
-    
-    .glass-morphism {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .dark .glass-morphism {
-        background: rgba(17, 24, 39, 0.7);
-    }
+    <template id="contact-template">
+        <div class="transform hover:scale-105 transition-all duration-300">
+            <div class="relative group">
+                <div class="absolute inset-0 bg-gradient-to-br from-green-400/30 to-emerald-500/30 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
+                <div class="relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-28 h-28 bg-green-500/10 rounded-bl-[100px] group-hover:scale-110 transition-transform"></div>
+                    <div class="relative">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-address-book text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white contact-name"></h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-envelope text-green-500"></i>
+                                </span>
+                                <span class="contact-email text-gray-600 dark:text-gray-300"></span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-phone text-green-500"></i>
+                                </span>
+                                <span class="contact-phone text-gray-600 dark:text-gray-300"></span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt text-green-500"></i>
+                                </span>
+                                <span class="contact-address text-gray-600 dark:text-gray-300"></span>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-green-500/20">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-green-600/60 dark:text-green-400/60 timestamp">
+                                    <i class="fas fa-clock mr-1"></i>
+                                </span>
+                                <div class="flex space-x-2">
+                                    <button class="edit-btn p-2 text-gray-500 hover:text-green-500 transition-colors">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="delete-btn p-2 text-gray-500 hover:text-red-500 transition-colors">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
 
-    .hover-scale {
-        transition: transform 0.3s ease;
-    }
+    <style>
+        .text-gradient-primary {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-morphism {
+            background: rgba(17, 24, 39, 0.7);
+        }
 
-    .hover-scale:hover {
-        transform: scale(1.05);
-    }
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
 
-    .text-shadow {
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
 
-    .glass-morphism {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .dark .glass-morphism {
-        background: rgba(17, 24, 39, 0.7);
-    }
+        .text-shadow {
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-    .hover-scale {
-        transition: transform 0.3s ease;
-        height: 100%;
-    }
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dark .glass-morphism {
+            background: rgba(17, 24, 39, 0.7);
+        }
 
-    .hover-scale:hover {
-        transform: scale(1.05);
-    }
+        .hover-scale {
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
 
-    .text-shadow {
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
 
-    /* Card sizing styles */
-    .transform {
-        height: 100%;
-        display: flex;
-    }
+        .text-shadow {
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-    .relative.group {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
+        /* Card sizing styles */
+        .transform {
+            height: 100%;
+            display: flex;
+        }
 
-    .relative.bg-white {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
+        .relative.group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .relative > div {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
+        .relative.bg-white {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-    /* Content area styles */
-    .flex-1.min-w-0 {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
+        .relative > div {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-    /* Footer positioning */
-    .mt-4.pt-4.border-t {
-        margin-top: auto;
-    }
+        /* Content area styles */
+        .flex-1.min-w-0 {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-    /* Card hover effects */
-    @keyframes pulse-border {
-        0% { border-color: rgba(255, 255, 255, 0.2); }
-        50% { border-color: rgba(255, 255, 255, 0.4); }
-        100% { border-color: rgba(255, 255, 255, 0.2); }
-    }
+        /* Footer positioning */
+        .mt-4.pt-4.border-t {
+            margin-top: auto;
+        }
 
-    .relative.bg-white {
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        animation: pulse-border 3s infinite;
-    }
+        /* Card hover effects */
+        @keyframes pulse-border {
+            0% { border-color: rgba(255, 255, 255, 0.2); }
+            50% { border-color: rgba(255, 255, 255, 0.4); }
+            100% { border-color: rgba(255, 255, 255, 0.2); }
+        }
 
-    /* Enhanced gradient effects */
-    .bg-gradient-to-br {
-        background-size: 200% 200%;
-        animation: gradient-shift 5s ease infinite;
-    }
+        .relative.bg-white {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: pulse-border 3s infinite;
+        }
 
-    @keyframes gradient-shift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-</style>
+        /* Enhanced gradient effects */
+        .bg-gradient-to-br {
+            background-size: 200% 200%;
+            animation: gradient-shift 5s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
       
         <div class="flex-1 p-6 space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr" id="items_list">

@@ -37,6 +37,8 @@ function loadDashboard() {
             const dashboard = document.getElementById('user_div');
             if (dashboard) {
                 dashboard.classList.remove('hidden');
+                // Initialize dashboard functionality
+                initializeDashboard();
             }
             // Add logout handler
             const logoutButton = document.querySelector('button[onclick="logout()"]');
