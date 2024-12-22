@@ -4,31 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeComponents();
         initializeAuth();
         initializeTheme();
+        setupUserInterface();
         
-        // Initialize Firebase Auth state observer
-        firebase.auth().onAuthStateChanged((user) => {
-            const userEmail = document.getElementById('userEmail');
-            const logoutBtn = document.getElementById('logoutBtn');
-            
-            if (user) {
-                // User is signed in
-                userEmail.textContent = user.email;
-                
-                // Setup logout functionality
-                logoutBtn.addEventListener('click', () => {
-                    firebase.auth().signOut().then(() => {
-                        // Sign-out successful, redirect to login page
-                        window.location.href = '/login.html';
-                    }).catch((error) => {
-                        console.error('Logout error:', error);
-                    });
-                });
-            } else {
-                // No user is signed in, redirect to login page
-                window.location.href = '/login.html';
-            }
-        });
-
         // Load dashboard content
         const dashboardContent = document.getElementById('dashboard-content');
         if (!dashboardContent) {
@@ -45,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(html => {
                 dashboardContent.innerHTML = html;
-                // After loading content, initialize any necessary event listeners
                 initializeEventListeners();
             })
             .catch(error => {
@@ -57,12 +33,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function setupUserInterface() {
+    const userEmailElement = document.getElementById('user-email');
+    const logoutButton = document.getElementById('logout-button');
+
+    // Set up auth state listener
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // User is signed in
+            userEmailElement.textContent = user.email;
+        } else {
+            // User is signed out
+            window.location.href = '/login.html';
+        }
+    });
+
+    // Set up logout button
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => {
+            firebase.auth().signOut().then(() => {
+                // Sign-out successful, redirect will happen automatically
+                // due to the auth state listener above
+            }).catch((error) => {
+                console.error('Error signing out:', error);
+            });
+        });
+    }
+}
+
 function initializeEventListeners() {
     // Add any necessary event listeners here after content is loaded
     document.querySelectorAll('[data-action]').forEach(element => {
         if (element && element.dataset.action) {
             element.addEventListener('click', (e) => {
-                // Handle the action safely
                 try {
                     const action = element.dataset.action;
                     console.log(`Handling action: ${action}`);
