@@ -1,5 +1,5 @@
 // Theme management
-export function toggleTheme() {
+function toggleTheme() {
     document.documentElement.classList.toggle('dark');
     // Save theme preference
     const isDark = document.documentElement.classList.contains('dark');
@@ -7,7 +7,7 @@ export function toggleTheme() {
 }
 
 // Initialize theme
-export function initializeTheme() {
+function initializeTheme() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     if (savedTheme === 'dark') {
         document.documentElement.classList.add('dark');

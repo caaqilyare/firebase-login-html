@@ -16,10 +16,7 @@ const db = firebase.firestore();
 db.settings({ timestampsInSnapshots: true });
 
 // Global state
-export const state = {
+const appState = {
     currentItemType: 'note',
     currentEditId: null
 };
-
-// Export the initialized db instance
-export { db };

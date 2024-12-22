@@ -1,87 +1,79 @@
-// Firebase Authentication State Observer
-let currentUser = null;
-
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    initializeAuth();
-});
-
+// Initialize Firebase Authentication
 function initializeAuth() {
-    // Initialize Firebase Authentication and get a reference to the service
-    auth = firebase.auth();
-    
-    // Set up authentication state observer
-    firebase.auth().onAuthStateChanged((user) => {
+    // Check if user is already signed in
+    firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
-            currentUser = user;
-            handleAuthenticatedUser();
+            // User is signed in
+            console.log('User is signed in:', user.email);
+            // Load dashboard content
+            loadDashboard();
         } else {
-            currentUser = null;
-            handleUnauthenticatedUser();
-        }
-    });
-
-    // Set up login form listener if it exists
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-        loginForm.addEventListener('submit', handleLogin);
-    }
-}
-
-function handleAuthenticatedUser() {
-    const authElements = document.querySelectorAll('.auth-required');
-    const unauthElements = document.querySelectorAll('.unauth-required');
-
-    authElements.forEach(element => {
-        if (element && element.classList) {
-            element.classList.remove('hidden');
-        }
-    });
-
-    unauthElements.forEach(element => {
-        if (element && element.classList) {
-            element.classList.add('hidden');
+            // No user is signed in, show login
+            console.log('No user signed in');
+            loadLogin();
         }
     });
 }
 
-function handleUnauthenticatedUser() {
-    const authElements = document.querySelectorAll('.auth-required');
-    const unauthElements = document.querySelectorAll('.unauth-required');
-
-    authElements.forEach(element => {
-        if (element && element.classList) {
-            element.classList.add('hidden');
-        }
-    });
-
-    unauthElements.forEach(element => {
-        if (element && element.classList) {
-            element.classList.remove('hidden');
-        }
-    });
+// Load login component
+function loadLogin() {
+    fetch('components/login.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('components-container').innerHTML = html;
+            // Add event listener to login form
+            document.getElementById('login_form').addEventListener('submit', handleLogin);
+        })
+        .catch(error => console.error('Error loading login:', error));
 }
 
-async function handleLogin(e) {
+// Load dashboard component
+function loadDashboard() {
+    fetch('components/dashboard.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('components-container').innerHTML = html;
+            // Show the dashboard by removing hidden class
+            const dashboard = document.getElementById('user_div');
+            if (dashboard) {
+                dashboard.classList.remove('hidden');
+            }
+            // Add logout handler
+            const logoutButton = document.querySelector('button[onclick="logout()"]');
+            if (logoutButton) {
+                logoutButton.onclick = handleLogout;
+            }
+        })
+        .catch(error => console.error('Error loading dashboard:', error));
+}
+
+// Handle login form submission
+function handleLogin(e) {
     e.preventDefault();
     
-    const email = document.getElementById('email')?.value;
-    const password = document.getElementById('password')?.value;
-
-    if (!email || !password) {
-        console.error('Email and password are required');
-        return;
-    }
-
-    try {
-        await firebase.auth().signInWithEmailAndPassword(email, password);
-    } catch (error) {
-        console.error('Login error:', error.message);
-    }
+    const email = document.getElementById('email_field').value;
+    const password = document.getElementById('password_field').value;
+    
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            // Signed in successfully
+            const user = userCredential.user;
+            console.log('Logged in successfully:', user.email);
+        })
+        .catch((error) => {
+            console.error('Login error:', error);
+            // Show error message to user
+            alert(error.message);
+        });
 }
 
-function logout() {
-    firebase.auth().signOut().catch((error) => {
-        console.error('Logout error:', error);
-    });
+// Handle logout
+function handleLogout() {
+    firebase.auth().signOut()
+        .then(() => {
+            console.log('Logged out successfully');
+        })
+        .catch((error) => {
+            console.error('Logout error:', error);
+        });
 }
