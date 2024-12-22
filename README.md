@@ -254,6 +254,6 @@ If you found this project helpful, please consider:
 
 <div align="center">
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by Munasar Abuukar
 
 </div>
